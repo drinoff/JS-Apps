@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Current Weather</title>
+</head>
+<body>
+<div id = 'wrapper'>
+
+    <div style="border-block: aqua">
+    <div>Enter City Name</div>
+    <label>
+        <input id="inputCity" >
+    </label>
+    <button id="btn">Show Current Weather</button>
+    </div>
+    <ul id = 'weather'>
+
+    </ul>
+</div>
+<script>
+    let btn = document.getElementById('btn');
+    let cityElement = document.getElementById('inputCity');
+    let ulElement = document.getElementById('weather');
+
+   let url = `http://api.weatherapi.com/v1/current.json?key=a04d5de511d94eb18e2181237211702&q=`
+    btn.addEventListener('click',()=>{
+
+        fetch(url + `${cityElement.value}`)
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+
+            let icon = data.current.condition.icon;
+            let currText = data.current.condition.text;
+            let temp = data.current.temp_c;
+            let feels = data.current.feelslike_c;
+            let humidity = data.current.humidity;
+            let wind = data.current.wind_kph;
+            let windDir = data.current.wind_dir;
+
+            let current = [temp,humidity,wind,windDir]
+
+            let CountryName = data.location.country;
+            let cityName = data.location.name;
+            let lang = data.location.lat;
+            let lon = data.location.lon;
+            let time = data.location.localtime;
+
+            let location = [cityName,CountryName,lang,lon,time]
+
+            let replacingUlElement = document.createElement('ul')
+            replacingUlElement.id = 'replacing';
+
+            let imgElement = document.createElement('img');
+            imgElement.id = 'img';
+            imgElement.src = icon;
+            replacingUlElement.appendChild(imgElement);
+
+            let currTextElement = document.createElement('li');
+            currTextElement.textContent = currText;
+            replacingUlElement.appendChild(currTextElement);
+
+            for (let i = 0; i < current.length; i++) {
+                let liElement = document.createElement('li');
+                liElement.textContent = current[i];
+                replacingUlElement.appendChild(liElement);
+            }
+
+            for (let i = 0; i < location.length; i++) {
+                let liElement = document.createElement('li');
+                liElement.textContent = location[i];
+                replacingUlElement.appendChild(liElement);
+            }
+
+            let wrapper = document.getElementById('wrapper')
+            wrapper.lastChild.remove();
+            wrapper.appendChild(replacingUlElement)
+
+
+            cityElement.value = '';
+        })
+    })
+
+</script>
+</body>
+</html>
