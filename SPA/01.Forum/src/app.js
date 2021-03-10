@@ -4,27 +4,21 @@ import * as generator from "../utilities/generateElement.js";
 let formElement = document.getElementsByTagName('form')[0];
 let cancelBtn = document.getElementById('cancelBtn');
 let postBtn = document.getElementById('postBtn');
+let homeLink = document.getElementsByTagName('a')[0];
+console.log(homeLink);
 
 let divTopicContainerElement = document.getElementsByClassName('topic-title')[0];
 let mainElement = document.getElementsByTagName('main')[0];
 
 
 window.onload = function () {
-    fetch('http://localhost:3030/jsonstore/collections/myboard/posts')
-        .then(res => res.json())
-        .then(data => {
-            Object.entries(data).forEach(([key, value]) => {
-                let title = value.title;
-                let userName = value.userName;
-                let postText = value.postText;
-                let id = value._id;
-                let date = value.date;
-
-                let createdElement = generator.generateElement(title, userName, id, date)
-                divTopicContainerElement.prepend(createdElement);
-            });
-        })
+    onLoadOrHomeBtn();
 }
+
+homeLink.addEventListener('click',function(e){
+    divTopicContainerElement.innerHTML = '';
+    onLoadOrHomeBtn();
+});
 
 
 postBtn.addEventListener('click', function (e) {
@@ -103,30 +97,31 @@ divTopicContainerElement.addEventListener('click', function (e) {
                 })
                 
             })
-            setTimeout(30000);
-
-            let newCommentElement = generator.commentSubmiter();
-            console.log(newCommentElement)
-            mainElement.appendChild(newCommentElement);
             
+            setTimeout(() => {
+                let newCommentElement = generator.commentSubmiter();
+                mainElement.appendChild(newCommentElement);
 
-            let commentPostBtn = document.getElementById('commentBtn');
+                let commentPostBtn = document.getElementById('commentBtn');
+                console.log(commentPostBtn);
 
-            commentPostBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let commentForm = document.getElementById('commentForm')
-                let formData = new FormData(commentForm)
-                let username = formData.get('username');
-                let textArea = formData.get('postText');
-                let date = new Date(Date.now()).toLocaleString();
-                let commentData = {
-                    username,
-                    textArea,
-                    id,
-                    date
-                }
-                fetch('http://localhost:3030/jsonstore/collections/myboard/comments', {
+
+                commentPostBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    let commentForm = document.getElementById('commentForm')
+                    let formData = new FormData(commentForm)
+                    let username = formData.get('username');
+                    let textArea = formData.get('postText');
+                    let date = new Date(Date.now()).toLocaleString();
+                    let commentData = {
+                        username,
+                        textArea,
+                        id,
+                        date
+                    }
+
+                    fetch('http://localhost:3030/jsonstore/collections/myboard/comments', {
                     method: 'POST',
                     body: JSON.stringify(commentData)
                 })
@@ -143,13 +138,31 @@ divTopicContainerElement.addEventListener('click', function (e) {
                         commentForm.reset();
                         
                     })
+            }, 2000);        
             })
         })
-
-
-
-
 })
+
+function onLoadOrHomeBtn(){
+    fetch('http://localhost:3030/jsonstore/collections/myboard/posts')
+        .then(res => res.json())
+        .then(data => {
+            Object.entries(data).forEach(([key, value]) => {
+                let title = value.title;
+                let userName = value.userName;
+                let postText = value.postText;
+                let id = value._id;
+                let date = value.date;
+
+                
+
+                let createdElement = generator.generateElement(title, userName, id, date)
+                divTopicContainerElement.prepend(createdElement);
+            });
+        })
+}
+
+
 
 
 
