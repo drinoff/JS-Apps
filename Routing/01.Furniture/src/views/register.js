@@ -47,6 +47,7 @@ export async function registerPage(ctx) {
         }
 
         await register(email,password);
+        ctx.setUserNav();
         ctx.page.redirect('/')
     }
 }
