@@ -32,9 +32,12 @@ const cardTemplate = (item) => html`
 `;
 
 export async function catalogPage(ctx) {
+    console.log(ctx);
     let data = await getAllMemes();
+    console.log(catalogTemplate(data))
     if(data){
         ctx.render(catalogTemplate(data))
+        
     }else{
         ctx.render(emptyCatalogTemplate())
         

@@ -31,7 +31,7 @@ const registerTemplate = (onSubmit) => html`
 
 export async function registerPage(ctx) {
     ctx.render(registerTemplate(onSubmit))
-
+    console.log(ctx)
     async function onSubmit(e) {
         e.preventDefault();
         const createForm = document.getElementById('register-form');

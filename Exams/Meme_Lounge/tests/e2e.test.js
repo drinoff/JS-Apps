@@ -3,7 +3,7 @@ const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 
 const host = 'http://localhost:3000'; // Application host (NOT service host - that can be anything)
-const DEBUG = false;
+const DEBUG = true;
 
 const mockData = require('./mock-data.json');
 const endpoints = {
@@ -42,7 +42,7 @@ describe('E2E tests', function () {
 
     before(async () => {
         if (DEBUG) {
-            browser = await chromium.launch({ headless: false, slowMo: 500 });
+            browser = await chromium.launch({ headless: true, slowMo: 500 });
         } else {
             browser = await chromium.launch();
         }
@@ -361,7 +361,7 @@ describe('E2E tests', function () {
             expect(called).to.be.false;
         });
 
-        it.only('create makes correct API call for logged in user [ 10 Points ]', async () => {
+        it('create makes correct API call for logged in user [ 10 Points ]', async () => {
             const endpoint = '**' + endpoints.create;
             const mock = mockData[5];
 
@@ -544,7 +544,7 @@ describe('E2E tests', function () {
     });
 
     describe('User Profile Page [ 10 Points ]', async () => {
-        const email = 'merry@mail.bg';
+        const email = 'mary@abv.bg';
         const username = 'Merry';
         const password = '123456';
         const loginEndpoint = '**' + endpoints.login;
@@ -562,7 +562,7 @@ describe('E2E tests', function () {
             await page.fill('[name="email"]', email);
             await page.fill('[name="password"]', password);
 
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(1000);
 
             await Promise.all([
                 page.waitForResponse(loginEndpoint),
@@ -603,16 +603,16 @@ describe('E2E tests', function () {
 
         });
 
-        it('check profile page information - with 2 memes [ 2.5 Points ]', async () => {
+        it.only('check profile page information - with 2 memes [ 2.5 Points ]', async () => {
             await page.route('**' + endpoints.profile, route => route.fulfill(json([mockData[0], mockData[1]])));
 
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(1000);
 
             await page.click('text="My Profile"');
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(1000);
 
             const memes = await page.$$eval('.user-meme-listings .user-meme', p => p.map(p => p.textContent));
-            await page.waitForTimeout(300);
+            await page.waitForTimeout(1000);
 
             expect(memes.length).to.equal(2);
             expect(memes[0]).to.contains('test');

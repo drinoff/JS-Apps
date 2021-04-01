@@ -60,8 +60,3 @@ document.getElementById('logout').addEventListener('click',async function(){
     }
 });
 
-export function notification(msg){
-    errorText.textContent = msg;
-    notificationDiv.classList.remove('notification');
-}
-window.notification = notification;
