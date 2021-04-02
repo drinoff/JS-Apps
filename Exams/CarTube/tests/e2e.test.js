@@ -512,7 +512,7 @@ describe('E2E tests', function () {
             await page.click('text=By Year');
             await page.waitForTimeout(interval);
 
-            await page.fill('#search-input', '2010');
+            await page.fill('#search', '2010');
             await page.click('button:has-text("Search")');
             await page.waitForTimeout(interval);
 
@@ -530,7 +530,7 @@ describe('E2E tests', function () {
             await page.click('text=By Year');
             await page.waitForTimeout(interval);
 
-            await page.fill('#search-input', '2010');
+            await page.fill('#search', '2010');
             await page.click('button:has-text("Search")');
             await page.waitForTimeout(interval);
 

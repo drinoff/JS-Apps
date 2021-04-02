@@ -24,11 +24,11 @@ const itemTemplate = (item) => html`
             <img src=${item.imageUrl}>
         </div>
         
-        <h2>data.brandModel</h2>
+        <h2>${item.brandModel}</h2>
         <div class="info">
             <div class="data-info">
                 <h3>${item.year}</h3>
-                <h3>${item.price}</h3>
+                <h3>${item.price}$</h3>
             </div>
             <div class="data-buttons">
                 <a href="/details/${item._id}" class="button-carDetails">Details</a>
@@ -40,7 +40,10 @@ const itemTemplate = (item) => html`
 export async function allListingsPage(ctx) {
     const data = await getAllCars();
     data.forEach(element => {
-        element.brandModel = `${data.brand}' '${data.model}`;   
+        element.brandModel = `${element.brand} ${element.model}`;   
     });
     ctx.render(allListingsTemplate(data));
+   
+
+    
 }

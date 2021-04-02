@@ -7,6 +7,10 @@ import {loginPage} from './views/login.js';
 import {registerPage} from './views/register.js';
 //import {logout} from './api/data.js';
 import { createPage } from './views/create.js';
+import {detailsPage} from './views/details.js';
+import {editPage} from './views/edit.js';
+import {myListingsPage} from './views/myListings.js'
+import { searchPage } from './views/search.js';
 
 
 window.api = api;
@@ -17,10 +21,11 @@ page('/', decorateContext, homePage);
 page('/register', decorateContext, registerPage);
 page('/allListings', decorateContext, allListingsPage);
 page('/login', decorateContext, loginPage);
- page('/create',decorateContext, createPage);
-// page('/details/:id', decorateContext, detailsPage);
-// page('/edit/:id', decorateContext, editPage);
-// page('/myProfile',decorateContext, myProfilePage);
+page('/create',decorateContext, createPage);
+page('/details/:id', decorateContext, detailsPage);
+page('/edit/:id', decorateContext, editPage);
+page('/myListings',decorateContext, myListingsPage);
+page('/search',decorateContext, searchPage);
 
 
 setUserNav();

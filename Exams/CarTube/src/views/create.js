@@ -48,15 +48,23 @@ export async function createPage(ctx) {
         let brand = formData.get('brand');
         let model = formData.get('model');
         let description = formData.get('description');
-        let year = formData.get('year');
+        let year = Number(formData.get('year'));
         let imageUrl = formData.get('imageUrl');
-        let price = formData.get('price');
+        let price = Number(formData.get('price'));
         
         if(price === ''||imageUrl ===''|| year === ''||description === ''||model ===''|| brand === ''){
            return window.alert('all fields must be filled')
         }
+        const data = {
+            brand,
+            model,
+            description,
+            year,
+            imageUrl,
+            price
+        }
 
-        await createCar(brand, model,description,year,imageUrl,price);
+        await createCar(data);
         ctx.setUserNav();
         ctx.page.redirect('/allListings');
     }
