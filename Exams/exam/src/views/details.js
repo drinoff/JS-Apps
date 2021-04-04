@@ -18,8 +18,8 @@ const detailsTemplate = (details, onDelete) => html`
             (details._ownerId === sessionStorage.getItem('userId'))
             ? html`<a href="/edit/${details._id}" class="btn edit">Edit</a>
                 <a @click=${onDelete} href="javascript:void(0)" class="btn delete">Delete</a>
-                <a href=${history.back()} class="btn edit">Back</a>`
-            : html`<a href=${history.back()} class="btn edit">Back</a>`
+                <a href='/' class="btn edit">Back</a>`
+            : html`<a href='/' class="btn edit">Back</a>`
         }
             
 
@@ -32,7 +32,6 @@ const detailsTemplate = (details, onDelete) => html`
 export async function detailsPage(ctx) {
 
     const details = await getArticleById(ctx.params.id)
-    console.log(ctx)
     ctx.render(detailsTemplate(details, onDelete))
 
     async function onDelete() {

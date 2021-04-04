@@ -37,7 +37,7 @@ const itemTemplate = (item)=>html`
 <article>
             <h3>${item.title}</h3>
             <p>${item.content}</p>
-            <a href="/details" class="btn details-btn">Details</a>
+            <a href="/details/${item._id}" class="btn details-btn">Details</a>
         </article>
 `;
 export async function homePage(ctx){

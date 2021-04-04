@@ -29,7 +29,7 @@ export async function editArticle(id,data){
 }
 
 export async function deleteArticle(id){
-    return api.del(host + '/data/cars/' + id);
+    return api.del(host + '/data/wiki/' + id);
 
 }
 

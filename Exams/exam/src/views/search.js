@@ -13,7 +13,7 @@ const searchTemplate = (data)=> html`
         </p>
     </form>
     <div class="search-container">
-        ${(data)
+        ${((data||[]).length!==0)
         ?html`${data.map(itemTemplate)}`
         :html`<h3 class="no-articles">No matching articles</h3>`
         }
@@ -42,6 +42,7 @@ export async function searchPage(ctx) {
 
         const query = searchField.value;
         const data = await searchArticle(query)
+        console.log(data)
         ctx.render(searchTemplate(data));
     })
 

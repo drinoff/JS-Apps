@@ -11,12 +11,12 @@ const editTemplate = (onSubmit, data) => html`
         <fieldset>
             <p class="field title">
                 <label for="title">Title:</label>
-                <input type="text" name="title" id="title" placeholder="Enter article title">
+                <input type="text" name="title" id="title" placeholder=${data.title}>
             </p>
 
             <p class="field category">
                 <label for="category">Category:</label>
-                <input type="text" name="category" id="category" placeholder="Enter article category">
+                <input type="text" name="category" id="category" placeholder=${data.category}>
             </p>
             <p class="field">
                 <label for="content">Content:</label>
@@ -35,9 +35,13 @@ const editTemplate = (onSubmit, data) => html`
 export async function editPage(ctx) {
 
     const data = await getArticleById(ctx.params.id)
+    
     ctx.render(editTemplate(onSubmit, data))
+     document.getElementById('content').textContent = data.content;
+    document.getElementById('title').value = data.title;
+    document.getElementById('category').value = data.category;
 
-
+    
     async function onSubmit(e) {
         e.preventDefault();
 
@@ -56,7 +60,7 @@ export async function editPage(ctx) {
         if (!categoryContent.includes(category)) {
             return window.alert('Category not correct')
         }
-        const data = {
+        const body = {
             title,
             category,
             content
